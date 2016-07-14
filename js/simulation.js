@@ -9,6 +9,7 @@ const Simulation = function(c) {
   this.count = 0;
   this.hit = 0;
   this.running = false;
+  this.max = 0;
 }
 
 Simulation.prototype.grid = function () {
@@ -22,6 +23,7 @@ Simulation.prototype.grid = function () {
     ctx.lineTo(this.width, i*this.interval);
     ctx.stroke();
   }
+
 
   const self = this;
 
@@ -52,6 +54,11 @@ Simulation.prototype.grid = function () {
       setTimeout(self.needle.bind(self), 200);
     }
   );
+  document.getElementById('max').addEventListener('click', function()
+    {
+      self.max = document.getElementById('max').value;
+    }
+  );
 };
 
 Simulation.prototype.needle = function () {
@@ -59,6 +66,10 @@ Simulation.prototype.needle = function () {
   const ctx = this.context;
   const r = this.needleLength / 2;
   const yrange = this.interval / 2.0 + this.height;
+
+  if (this.max > 0 && this.count >= this.max) {
+    this.running = false;
+  }
 
   if (this.running) {
     this.count++;
