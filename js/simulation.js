@@ -3,6 +3,7 @@ const Simulation = function(c) {
   this.r = 50;
   this.count = 0;
   this.hit = 0;
+  this.running = false;
 }
 
 Simulation.prototype.grid = function () {
@@ -15,7 +16,21 @@ Simulation.prototype.grid = function () {
     this.c.lineTo(1200, i*100);
     this.c.stroke();
   }
-  setTimeout(this.needle.bind(this), 200);
+
+  const self = this;
+
+  document.getElementById('start').addEventListener('click', function()
+    {
+      self.running = true;
+      setTimeout(self.needle.bind(self), 200);
+    // startSim();
+    }
+  );
+  document.getElementById('stop').addEventListener('click', function()
+    {
+      self.running = false;
+    }
+  );
 };
 
 Simulation.prototype.needle = function () {
@@ -54,7 +69,9 @@ Simulation.prototype.needle = function () {
   this.c.font="20px Georgia"; this.c.strokeStyle="rgb(255,255,0)";     this.c.strokeText("hit/count",250,760);
   this.c.font="20px Georgia"; this.c.strokeStyle="rgba(255,255,0,0.5)";this.c.strokeText(ref,10,790);
   this.c.font="20px Georgia"; this.c.strokeStyle="rgba(255,255,0,0.5)";this.c.strokeText("=2/Pi",250,790);
-  setTimeout(this.needle.bind(this), 10);
+  if (this.running) {
+    setTimeout(this.needle.bind(this), 10);
+  }
 };
 
 module.exports = Simulation;
