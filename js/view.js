@@ -4,6 +4,7 @@ const View = function ($el) {
   this.canvas = document.getElementById($el);
   this.context = canvas.getContext('2d');
   this.container = document.getElementById('container');
+  this.stats = document.getElementById('statistics_panel');
 }
 
 View.prototype.init = function() {

@@ -10,7 +10,7 @@ const Simulation = function(c) {
   this.hit = 0;
   this.running = false;
   this.max = 0;
-}
+};
 
 Simulation.prototype.grid = function () {
   const ctx = this.context;
@@ -44,6 +44,10 @@ Simulation.prototype.grid = function () {
       self.running = false;
       self.count = 0;
       self.hit = 0;
+      self.showStats();
+
+      ctx.strokeStyle = "rgba(255,255,0,0.95)";
+      ctx.lineWidth = 1;
       ctx.clearRect(0, 0, self.width, self.height);
       ctx.beginPath();
       for (let i = 1; i < self.nboards; i++) {
@@ -88,26 +92,30 @@ Simulation.prototype.needle = function () {
     } else {
       ctx.strokeStyle = "rgb(255,0,0)";
     }
-    const fraction = this.hit / this.count;
-    const miss = this.count - this.hit;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(Math.floor(x1), Math.floor(y1));
     ctx.lineTo(Math.floor(x2), Math.floor(y2));
     ctx.stroke();
-    ctx.clearRect(0, 720, this.width, this.height);
-    ctx.font="40px Georgia"; ctx.strokeStyle="rgb(0,255,0)";       ctx.lineWidth=1; ctx.strokeText(this.hit,400,760);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgba(0,255,0,0.5)";  ctx.strokeText("hit",400,790);
-    ctx.font="40px Georgia"; ctx.strokeStyle="rgb(255,0,0)";       ctx.strokeText(miss,520,760);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgba(255,0,0,0.5)";  ctx.strokeText("miss",520,790);
-    ctx.font="40px Georgia"; ctx.strokeStyle="rgb(255,255,255)";   ctx.strokeText(this.count,640,760);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgba(255,255,255,0.5)";  ctx.strokeText("count",640,790);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgb(255,255,0)";     ctx.strokeText(fraction,10,760);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgb(255,255,0)";     ctx.strokeText("hit/count",250,760);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgba(255,255,0,0.5)";ctx.strokeText(ref,10,790);
-    ctx.font="20px Georgia"; ctx.strokeStyle="rgba(255,255,0,0.5)";ctx.strokeText("=2/Pi",250,790);
+    ctx.clearRect(0, this.height, this.width, this.height);
+
+    this.showStats();
+
     setTimeout(this.needle.bind(this), 10);
   }
+};
+
+Simulation.prototype.showStats = function() {
+    const miss = this.count - this.hit;
+    let fraction = 1;
+    if (this.count > 0) {
+      fraction = this.hit / this.count;
+    }
+    const estimate = 2 * this.needleLength / this.interval / fraction;
+    document.getElementById('count').innerHTML = this.count;
+    document.getElementById('hits').innerHTML = this.hit;
+    document.getElementById('misses').innerHTML = miss;
+    document.getElementById('estimate').innerHTML = estimate;
 };
 
 module.exports = Simulation;
