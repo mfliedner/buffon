@@ -1,5 +1,7 @@
-const Simulation = require('./simulation');
+const View = require('./view');
 
-$(() => {
-  const simulation = new Simulation();
+$(document).ready(function() {
+  const root = $('.buffon');
+  const buffon_view = new View(root);
+  buffon_view.init();
 });
