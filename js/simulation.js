@@ -86,10 +86,12 @@ Simulation.prototype.dropNeedle = function () {
   if (this.running) {
     this.count++;
 
-    // generate new needle with random position and orienation
+    // generate new needle with random position and orientation
     const x = Math.floor(this.width * Math.random());
     const y = Math.floor(yrange * Math.random());
     const phi = 2 * Math.PI * Math.random();
+
+    // determine hit or miss
     const x1 = x - r * Math.cos(phi);
     const y1 = y - r * Math.sin(phi);
     const y1a = Math.floor(y1 + this.interval) % (2*this.interval);
@@ -98,16 +100,17 @@ Simulation.prototype.dropNeedle = function () {
     const y2a = Math.floor(y2 + this.interval) % (2*this.interval);
     if ( (y1a - this.interval) * (y2a - this.interval) < 0 ) {
       this.hit++;
-      ctx.strokeStyle = "rgb(0,255,0)";
+      ctx.strokeStyle = "green";
     } else {
-      ctx.strokeStyle = "rgb(255,0,0)";
+      ctx.strokeStyle = "red";
     }
+
+    // draw new needle with appropriate color
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(Math.floor(x1), Math.floor(y1));
     ctx.lineTo(Math.floor(x2), Math.floor(y2));
     ctx.stroke();
-    ctx.clearRect(0, this.height, this.width, this.height);
 
     this.showStats();
 
