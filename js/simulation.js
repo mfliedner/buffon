@@ -1,3 +1,5 @@
+const Needle = require('./needle');
+
 const Simulation = function(c, w, h) {
   this.context = c;
   this.width  = w;
@@ -75,9 +77,9 @@ Simulation.prototype.run = function () {
 };
 
 Simulation.prototype.dropNeedle = function () {
-  const ctx = this.context;
-  const r = this.needleLength / 2;
-  const yrange = this.interval / 2.0 + this.height;
+  let hit = false;
+  const needle = new Needle(this.context, this.width, this.height,
+                            this.interval, this.needleLength);
 
   if (this.max > 0 && this.count >= this.max) {
     this.running = false;
@@ -86,31 +88,12 @@ Simulation.prototype.dropNeedle = function () {
   if (this.running) {
     this.count++;
 
-    // generate new needle with random position and orientation
-    const x = Math.floor(this.width * Math.random());
-    const y = Math.floor(yrange * Math.random());
-    const phi = 2 * Math.PI * Math.random();
-
-    // determine hit or miss
-    const x1 = x - r * Math.cos(phi);
-    const y1 = y - r * Math.sin(phi);
-    const y1a = Math.floor(y1 + this.interval) % (2*this.interval);
-    const x2 = x + r * Math.cos(phi);
-    const y2 = y + r * Math.sin(phi);
-    const y2a = Math.floor(y2 + this.interval) % (2*this.interval);
-    if ( (y1a - this.interval) * (y2a - this.interval) < 0 ) {
+    needle.add();
+    hit = needle.hit();
+    if (hit) {
       this.hit++;
-      ctx.strokeStyle = "green";
-    } else {
-      ctx.strokeStyle = "red";
     }
-
-    // draw new needle with appropriate color
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(Math.floor(x1), Math.floor(y1));
-    ctx.lineTo(Math.floor(x2), Math.floor(y2));
-    ctx.stroke();
+    needle.draw();
 
     this.showStats();
 
