@@ -78,9 +78,10 @@ h1, h2 {
 #instructions_panel {
     top: 50px;
     left: 20px;
+    text-align: justify;
 }
 
-#hide_instructions {
+#hide_instructions, #hide_introduction {
     position: absolute;
     right: 25px;
     top: 10px;
@@ -91,6 +92,10 @@ h1, h2 {
 #hide_instruction:hover {
     color: #fff;
     text-decoration: underline;
+}
+
+.header_title {
+  color: yellow;
 }
 
 button {
@@ -115,21 +120,21 @@ button {
 }
 
 button:hover {
-    background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 #statistics_panel {
-    position: fixed;
-    bottom: 40px;
-    left: 35px;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-    color: black;
+  position: fixed;
+  bottom: 40px;
+  left: 35px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  color: black;
 }
 
 ul {
-   list-style: none;
+  list-style: none;
 }
 
 #hits, .hits {

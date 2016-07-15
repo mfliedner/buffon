@@ -14,6 +14,12 @@
     <script>
       $( function() {
         $( ".panel" ).draggable();
+        $('#hide_introduction').click(function() {
+          $("#introduction_panel").slideUp();
+        });
+        $('#hide_instructions').click(function() {
+          $('#instructions_panel').slideUp();
+        });
       } );
     </script>
 
@@ -29,7 +35,7 @@
     <div id="introduction_panel" class="panel">
       <header>
         <h2 class="header_title">Introduction</h2>
-        <span id="hide_instructions">close</span>
+        <span id="hide_introduction">close</span>
       </header>
       <p>
       Georges-Louis Leclerc, Comte de Buffon (1707-1788) in the 18th century posed and solved
