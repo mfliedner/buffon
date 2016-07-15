@@ -18,7 +18,7 @@ View.prototype.init = function() {
 
 View.prototype.run = function() {
   const simulation = new Simulation(this.context, this.width, this.height);
-  simulation.grid();
+  simulation.run();
 };
 
 module.exports = View;

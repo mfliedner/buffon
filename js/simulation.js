@@ -13,9 +13,11 @@ const Simulation = function(c, w, h) {
   this.max = 0;
 };
 
-Simulation.prototype.grid = function () {
+// generates empty grid of `nboards` horizontally
+// oriented floor boards on canvas
+Simulation.prototype.setGrid = function () {
   const ctx = this.context;
-  ctx.strokeStyle = "rgba(255,255,0,0.95)";
+  ctx.strokeStyle = "yellow";
   ctx.lineWidth = 1;
   ctx.clearRect(0, 0, this.width, this.height);
   ctx.beginPath();
@@ -24,20 +26,32 @@ Simulation.prototype.grid = function () {
     ctx.lineTo(this.width, i*this.interval);
     ctx.stroke();
   }
+}
+
+// inititiates needle drop simulation on Grid
+Simulation.prototype.run = function () {
+
+  // set up canvas with horizontal with `nboards` floor boards
+  this.setGrid();
 
   const self = this;
 
+  // start simulation
   document.getElementById('start').addEventListener('click', function()
     {
       self.running = true;
-      setTimeout(self.needle.bind(self), 200);
+      setTimeout(self.dropNeedle.bind(self), 200);
     }
   );
+
+  // stop simulation
   document.getElementById('stop').addEventListener('click', function()
     {
       self.running = false;
     }
   );
+
+  // reset simulation
   document.getElementById('new').addEventListener('click', function()
     {
       self.running = false;
@@ -45,18 +59,14 @@ Simulation.prototype.grid = function () {
       self.hit = 0;
       self.showStats();
 
-      ctx.strokeStyle = "rgba(255,255,0,0.95)";
-      ctx.lineWidth = 1;
-      ctx.clearRect(0, 0, self.width, self.height);
-      ctx.beginPath();
-      for (let i = 1; i < self.nboards; i++) {
-        ctx.moveTo(0, i*self.interval);
-        ctx.lineTo(self.width, i*self.interval);
-        ctx.stroke();
-      }
-      setTimeout(self.needle.bind(self), 200);
+      // reset grid to empty
+      self.setGrid();
+
+      setTimeout(self.dropNeedle.bind(self), 200);
     }
   );
+
+  // run fixed length simulation
   document.getElementById('max').addEventListener('click', function()
     {
       self.max = document.getElementById('max').value;
@@ -64,8 +74,7 @@ Simulation.prototype.grid = function () {
   );
 };
 
-Simulation.prototype.needle = function () {
-  const ref = 2 / Math.PI;
+Simulation.prototype.dropNeedle = function () {
   const ctx = this.context;
   const r = this.needleLength / 2;
   const yrange = this.interval / 2.0 + this.height;
@@ -76,6 +85,8 @@ Simulation.prototype.needle = function () {
 
   if (this.running) {
     this.count++;
+
+    // generate new needle with random position and orienation
     const x = Math.floor(this.width * Math.random());
     const y = Math.floor(yrange * Math.random());
     const phi = 2 * Math.PI * Math.random();
@@ -100,10 +111,11 @@ Simulation.prototype.needle = function () {
 
     this.showStats();
 
-    setTimeout(this.needle.bind(this), 10);
+    setTimeout(this.dropNeedle.bind(this), 10);
   }
 };
 
+// report updated result on document
 Simulation.prototype.showStats = function() {
     const miss = this.count - this.hit;
     let fraction = 1;
