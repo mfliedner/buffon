@@ -7,6 +7,16 @@ const View = function ($el) {
 }
 
 View.prototype.init = function() {
+  $( ".panel" ).draggable();
+  $('#hide_introduction').click(function() {
+    $("#introduction_panel").slideUp();
+  });
+  $('#hide_instructions').click(function() {
+    $('#instructions_panel').slideUp();
+  });
+};
+
+View.prototype.run = function() {
   const simulation = new Simulation(this.context, this.width, this.height);
   simulation.grid();
 };
