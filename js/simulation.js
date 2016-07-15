@@ -1,11 +1,12 @@
-const Simulation = function(c) {
-  this.width  = 1200;
-  this.height = 800;
+const Simulation = function(c, w, h) {
+  this.context = c;
+  this.width  = w;
+  this.height = h;
+
   this.nboards = 8;
   this.interval = Math.floor(this.height / this.nboards);
   this.needleLength = this.interval;
 
-  this.context = c;
   this.count = 0;
   this.hit = 0;
   this.running = false;
@@ -24,14 +25,12 @@ Simulation.prototype.grid = function () {
     ctx.stroke();
   }
 
-
   const self = this;
 
   document.getElementById('start').addEventListener('click', function()
     {
       self.running = true;
       setTimeout(self.needle.bind(self), 200);
-    // startSim();
     }
   );
   document.getElementById('stop').addEventListener('click', function()
