@@ -1,6 +1,6 @@
 const Simulation = require('./simulation');
 
-const View = function ($el) {
+const View = function (canvas) {
   this.context = canvas.getContext('2d');
   this.width = canvas.width;
   this.height = canvas.height;
