@@ -1,6 +1,6 @@
 # BuffonNeedle
 Simulation of Buffon's Needle experiment as a probabilistic approach to
-estimate the value of pi.
+estimate the value of &pi;.
 
 [Live][github]
 
@@ -16,9 +16,8 @@ on a wooden floor with evenly spaced cracks, distance D apart. What is the proba
 of the needle hitting a crack? (The problem is nowadays known as Buffon's Needle problem.)
 The answer he discovered with the help of integral calculus is given by the simple formula
 
-```html
-<p>P = 2L/&pi;</p>
- ```
+P = 2L/&pi;
+
 With P approximated by the ratio of hits to the total number of tosses, the formula offers a way
 of evaluating &pi;, an observation that eventually led Pierre Simon Laplace (1749-1827) to propose
 a method, known today as the Monte Carlo Method, for numerical evaluation of various quantities
